@@ -3,36 +3,37 @@ unit Model.Orders;
 interface
 
 uses
-  System.Generics.Collections;
+  System.Generics.Collections,
+  Plus.Nullable;
 
 type
   TOrder = class
   private
-    FShippedDate: TDateTime;
-    FOrderDate: TDateTime;
-    FRequiredDate: TDateTime;
-    FEmployeeID: Integer;
-    FCustomerID: String;
-    FShipVia: Integer;
-    FFreight: Currency;
-    FOrderID: Integer;
-    procedure SetCustomerID(const Value: String);
-    procedure SetEmployeeID(const Value: Integer);
-    procedure SetFreight(const Value: Currency);
-    procedure SetOrderDate(const Value: TDateTime);
-    procedure SetOrderID(const Value: Integer);
-    procedure SetRequiredDate(const Value: TDateTime);
-    procedure SetShippedDate(const Value: TDateTime);
-    procedure SetShipVia(const Value: Integer);
+    FShippedDate: Nullable<TDateTime>;
+    FOrderDate: Nullable<TDateTime>;
+    FRequiredDate: Nullable<TDateTime>;
+    FEmployeeID: Nullable<Integer>;
+    FCustomerID: Nullable<String>;
+    FShipVia: Nullable<Integer>;
+    FFreight: Nullable<Currency>;
+    FOrderID: Nullable<Integer>;
+    procedure SetCustomerID(const Value: Nullable<String>);
+    procedure SetEmployeeID(const Value: Nullable<Integer>);
+    procedure SetFreight(const Value: Nullable<Currency>);
+    procedure SetOrderDate(const Value: Nullable<TDateTime>);
+    procedure SetOrderID(const Value: Nullable<Integer>);
+    procedure SetRequiredDate(const Value: Nullable<TDateTime>);
+    procedure SetShippedDate(const Value: Nullable<TDateTime>);
+    procedure SetShipVia(const Value: Nullable<Integer>);
   public
-    property OrderID: Integer read FOrderID write SetOrderID;
-    property CustomerID: String read FCustomerID write SetCustomerID;
-    property EmployeeID: Integer read FEmployeeID write SetEmployeeID;
-    property OrderDate: TDateTime read FOrderDate write SetOrderDate;
-    property RequiredDate: TDateTime read FRequiredDate write SetRequiredDate;
-    property ShippedDate: TDateTime read FShippedDate write SetShippedDate;
-    property ShipVia: Integer read FShipVia write SetShipVia;
-    property Freight: Currency read FFreight write SetFreight;
+    property OrderID: Nullable<Integer> read FOrderID write SetOrderID;
+    property CustomerID: Nullable<String> read FCustomerID write SetCustomerID;
+    property EmployeeID: Nullable<Integer> read FEmployeeID write SetEmployeeID;
+    property OrderDate: Nullable<TDateTime> read FOrderDate write SetOrderDate;
+    property RequiredDate: Nullable<TDateTime> read FRequiredDate write SetRequiredDate;
+    property ShippedDate: Nullable<TDateTime> read FShippedDate write SetShippedDate;
+    property ShipVia: Nullable<Integer> read FShipVia write SetShipVia;
+    property Freight: Nullable<Currency> read FFreight write SetFreight;
   end;
 
   TOrderStore = class(TObjectList<TOrder>)
@@ -46,42 +47,42 @@ implementation
 
 { TOrder }
 
-procedure TOrder.SetCustomerID(const Value: String);
+procedure TOrder.SetCustomerID(const Value: Nullable<String>);
 begin
   FCustomerID := Value;
 end;
 
-procedure TOrder.SetEmployeeID(const Value: Integer);
+procedure TOrder.SetEmployeeID(const Value: Nullable<Integer>);
 begin
   FEmployeeID := Value;
 end;
 
-procedure TOrder.SetFreight(const Value: Currency);
+procedure TOrder.SetFreight(const Value: Nullable<Currency>);
 begin
   FFreight := Value;
 end;
 
-procedure TOrder.SetOrderDate(const Value: TDateTime);
+procedure TOrder.SetOrderDate(const Value: Nullable<TDateTime>);
 begin
   FOrderDate := Value;
 end;
 
-procedure TOrder.SetOrderID(const Value: Integer);
+procedure TOrder.SetOrderID(const Value: Nullable<Integer>);
 begin
   FOrderID := Value;
 end;
 
-procedure TOrder.SetRequiredDate(const Value: TDateTime);
+procedure TOrder.SetRequiredDate(const Value: Nullable<TDateTime>);
 begin
   FRequiredDate := Value;
 end;
 
-procedure TOrder.SetShippedDate(const Value: TDateTime);
+procedure TOrder.SetShippedDate(const Value: Nullable<TDateTime>);
 begin
   FShippedDate := Value;
 end;
 
-procedure TOrder.SetShipVia(const Value: Integer);
+procedure TOrder.SetShipVia(const Value: Nullable<Integer>);
 begin
   FShipVia := Value;
 end;

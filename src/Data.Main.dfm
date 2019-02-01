@@ -4,8 +4,7 @@ object DataModule1: TDataModule1
   Width = 347
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'ConnectionDef=NorthwindPlus')
-    Connected = True
+      'ConnectionDef=FB_Demo')
     LoginPrompt = False
     Left = 40
     Top = 8
