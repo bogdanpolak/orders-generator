@@ -34,6 +34,8 @@ var
 implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
+
+uses Plus.Nullable;
 {$R *.dfm}
 
 procedure TDataModule1.LoadOrdersStore;
@@ -43,21 +45,22 @@ begin
   fdqOrderORM.Open('SELECT ' + sLineBreak +
     '  ORDERID, CUSTOMERID, EMPLOYEEID, ORDERDATE, ' + sLineBreak +
     '  REQUIREDDATE, SHIPPEDDATE, SHIPVIA, FREIGHT ' + sLineBreak +
-    'FROM ORDERS ');
+    'FROM {id Orders} ');
   TOrderStore.Store.Clear;
   while not fdqOrderORM.Eof do
   begin
     Order := TOrder.Create;
-    Order.OrderID := fdqOrderORM.FieldByName('OrderID').Value;
-    Order.CustomerID := fdqOrderORM.FieldByName('CustomerID').Value;
-    Order.EmployeeID := fdqOrderORM.FieldByName('EmployeeID').Value;
-    Order.OrderDate := fdqOrderORM.FieldByName('OrderDate').Value;
-    Order.RequiredDate := fdqOrderORM.FieldByName('RequiredDate').Value;
-    // TODO: Potrzebny jest TNullableDateTime (sprawdü Spring4D)
-    // Ewentualnie zmienic wszystkie wartoúci na Variant (brrrr!!)
-    Order.ShippedDate := fdqOrderORM.FieldByName('ShippedDate').AsDateTime;
-    Order.ShipVia := fdqOrderORM.FieldByName('ShipVia').Value;
-    Order.Freight := fdqOrderORM.FieldByName('Freight').Value;
+    Order.OrderID.Create(fdqOrderORM.FieldByName('OrderID').Value);
+    Order.CustomerID.Create(fdqOrderORM.FieldByName('CustomerID').Value);
+    Order.EmployeeID.Create(fdqOrderORM.FieldByName('EmployeeID').Value);
+    Order.OrderDate.Create(fdqOrderORM.FieldByName('OrderDate').Value);
+    Order.RequiredDate.Create(fdqOrderORM.FieldByName('RequiredDate').Value);
+
+    // Order.ShippedDate.Create(fdqOrderORM.FieldByName('ShippedDate').Value);
+    Order.ShippedDate := fdqOrderORM.FieldByName('ShippedDate').Value;
+
+    Order.ShipVia.Create(fdqOrderORM.FieldByName('ShipVia').Value);
+    Order.Freight.Create(fdqOrderORM.FieldByName('Freight').Value);
     TOrderStore.Store.Add(Order);
     fdqOrderORM.Next;
   end;

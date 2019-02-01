@@ -60,6 +60,7 @@ var
   Order: TOrder;
   ListBox: TListBox;
   sl: TStringList;
+  ShippedDate: string;
 begin
   DataModule1.LoadOrdersStore;
   ListBox := TListBox.Create(Self);
@@ -69,8 +70,16 @@ begin
   ListBox.AlignWithMargins := True;
   sl := TStringList.Create;
   try
+    ShowMessage ( TOrderStore.Store.Count.ToString);
     for Order in TOrderStore.Store do
-      sl.Add(Order.OrderID.ToString +' '+ Order.CustomerID);
+    begin
+      if Order.ShippedDate.HasValue then
+        ShippedDate := Order.ShippedDate.ToString
+      else
+        ShippedDate := '  <null>  ';
+      sl.Add(ShippedDate+' | '+
+      Order.OrderID.ToString +' '+ Order.CustomerID.GetValueOrDefault);
+    end;
     ListBox.Items := sl;
   finally
     sl.Free;
