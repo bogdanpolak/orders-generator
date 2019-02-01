@@ -3,7 +3,9 @@ program OrdersGenerator;
 uses
   Vcl.Forms,
   Form.Main in 'Form.Main.pas' {Form1},
-  Data.Main in 'Data.Main.pas' {DataModule1: TDataModule};
+  Data.Main in 'Data.Main.pas' {DataModule1: TDataModule},
+  Proxy.Orders in 'Proxy\Proxy.Orders.pas',
+  Data.DataProxy in 'Proxy\Data.DataProxy.pas';
 
 {$R *.res}
 

@@ -3,8 +3,9 @@ unit Form.Main;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.Actions,
+  Winapi.Windows, Winapi.Messages, System.Actions,
+  System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
   Vcl.ActnList;
 
 type
@@ -40,6 +41,10 @@ implementation
 
 {$R *.dfm}
 
+uses
+  Data.Main,
+  Proxy.Orders;
+
 procedure TForm1.actConnectServerExecute(Sender: TObject);
 begin
   // TODO: code it
@@ -51,8 +56,28 @@ begin
 end;
 
 procedure TForm1.actStartGeneratorExecute(Sender: TObject);
+var
+  Orders: TOrdersProxy;
+  ListBox: TListBox;
+  sl: TStringList;
 begin
-  // TODO: code it
+  Orders := DataModule1.CreateAllOrdersProxy;
+  ListBox := TListBox.Create(Self);
+  ListBox.Left := 999;
+  ListBox.Parent := Self;
+  ListBox.Align := alLeft;
+  ListBox.AlignWithMargins := True;
+  sl := TStringList.Create;
+  try
+    Orders.ForEach(
+      procedure
+      begin
+        sl.Add(Orders.OrderID.AsString +' '+ Orders.CustomerID.AsString);
+      end);
+    ListBox.Items := sl;
+  finally
+    sl.Free;
+  end;
 end;
 
 procedure TForm1.actStopGeneratorExecute(Sender: TObject);

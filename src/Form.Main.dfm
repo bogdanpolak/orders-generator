@@ -31,9 +31,6 @@ object Form1: TForm1
       Action = actConnectServer
       Align = alTop
       TabOrder = 0
-      ExplicitLeft = 56
-      ExplicitTop = 184
-      ExplicitWidth = 75
     end
     object GroupBox2: TGroupBox
       AlignWithMargins = True
@@ -54,8 +51,6 @@ object Form1: TForm1
         Height = 13
         Align = alTop
         Caption = 'Label1'
-        ExplicitLeft = 80
-        ExplicitTop = 96
         ExplicitWidth = 31
       end
       object Edit1: TEdit
@@ -67,9 +62,6 @@ object Form1: TForm1
         Align = alTop
         TabOrder = 0
         Text = 'Edit1'
-        ExplicitLeft = 32
-        ExplicitTop = 115
-        ExplicitWidth = 121
       end
       object Button2: TButton
         AlignWithMargins = True
@@ -80,9 +72,6 @@ object Form1: TForm1
         Action = actRescheduleOrders
         Align = alTop
         TabOrder = 1
-        ExplicitLeft = 56
-        ExplicitTop = 121
-        ExplicitWidth = 75
       end
     end
     object GroupBox3: TGroupBox
@@ -105,9 +94,6 @@ object Form1: TForm1
         Action = actStartGenerator
         Align = alTop
         TabOrder = 0
-        ExplicitLeft = 24
-        ExplicitTop = 32
-        ExplicitWidth = 75
       end
       object Button4: TButton
         AlignWithMargins = True
@@ -118,9 +104,6 @@ object Form1: TForm1
         Action = actStopGenerator
         Align = alTop
         TabOrder = 1
-        ExplicitLeft = 48
-        ExplicitTop = 87
-        ExplicitWidth = 75
       end
     end
   end
