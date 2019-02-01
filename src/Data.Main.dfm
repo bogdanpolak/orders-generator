@@ -25,4 +25,9 @@ object DataModule1: TDataModule1
     Left = 37
     Top = 70
   end
+  object fdqOrderORM: TFDQuery
+    Connection = FDConnection1
+    Left = 40
+    Top = 120
+  end
 end
