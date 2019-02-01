@@ -14,7 +14,7 @@ uses
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.Client, FireDAC.Comp.DataSet,
   Data.DB,
-  Proxy.Orders;
+  Model.Orders;
 
 type
   TDataModule1 = class(TDataModule)
@@ -22,9 +22,10 @@ type
     FDPhysIBDriverLink1: TFDPhysIBDriverLink;
     FDPhysFBDriverLink1: TFDPhysFBDriverLink;
     OrdersTable: TFDQuery;
+    fdqOrderORM: TFDQuery;
   private
   public
-    function CreateAllOrdersProxy: TOrdersProxy;
+    procedure LoadOrdersStore;
   end;
 
 var
@@ -34,26 +35,33 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
-{ TDataModule1 }
 
-function TDataModule1.CreateAllOrdersProxy: TOrdersProxy;
+procedure TDataModule1.LoadOrdersStore;
 var
-  sql: string;
-  Proxy: TOrdersProxy;
-  Query: TFDQuery;
+  Order: TOrder;
 begin
-  sql := 'SELECT ' + sLineBreak +
+  fdqOrderORM.Open('SELECT ' + sLineBreak +
     '  ORDERID, CUSTOMERID, EMPLOYEEID, ORDERDATE, ' + sLineBreak +
     '  REQUIREDDATE, SHIPPEDDATE, SHIPVIA, FREIGHT ' + sLineBreak +
-    'FROM ORDERS ';
-  Proxy := TOrdersProxy.Create(Self);
-  Query := TFDQuery.Create(Proxy);
-  Query.Connection := FDConnection1;
-  Query.FetchOptions.Mode := fmAll;
-  Query.sql.Text := sql;
-  Proxy.ConnectWithDataSet(Query);
-  Proxy.Open;
-  Result := Proxy;
+    'FROM ORDERS ');
+  TOrderStore.Store.Clear;
+  while not fdqOrderORM.Eof do
+  begin
+    Order := TOrder.Create;
+    Order.OrderID := fdqOrderORM.FieldByName('OrderID').Value;
+    Order.CustomerID := fdqOrderORM.FieldByName('CustomerID').Value;
+    Order.EmployeeID := fdqOrderORM.FieldByName('EmployeeID').Value;
+    Order.OrderDate := fdqOrderORM.FieldByName('OrderDate').Value;
+    Order.RequiredDate := fdqOrderORM.FieldByName('RequiredDate').Value;
+    // TODO: Potrzebny jest TNullableDateTime (sprawdü Spring4D)
+    // Ewentualnie zmienic wszystkie wartoúci na Variant (brrrr!!)
+    Order.ShippedDate := fdqOrderORM.FieldByName('ShippedDate').AsDateTime;
+    Order.ShipVia := fdqOrderORM.FieldByName('ShipVia').Value;
+    Order.Freight := fdqOrderORM.FieldByName('Freight').Value;
+    TOrderStore.Store.Add(Order);
+    fdqOrderORM.Next;
+  end;
+  fdqOrderORM.Close;
 end;
 
 end.
