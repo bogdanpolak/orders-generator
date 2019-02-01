@@ -18,4 +18,11 @@ object DataModule1: TDataModule1
     Left = 240
     Top = 8
   end
+  object OrdersTable: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT * FROM ORDERS')
+    Left = 37
+    Top = 70
+  end
 end
