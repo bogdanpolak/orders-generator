@@ -43,7 +43,7 @@ implementation
 
 uses
   Data.Main,
-  Proxy.Orders;
+  Model.Orders;
 
 procedure TForm1.actConnectServerExecute(Sender: TObject);
 begin
@@ -57,11 +57,11 @@ end;
 
 procedure TForm1.actStartGeneratorExecute(Sender: TObject);
 var
-  Orders: TOrdersProxy;
+  Order: TOrder;
   ListBox: TListBox;
   sl: TStringList;
 begin
-  Orders := DataModule1.CreateAllOrdersProxy;
+  DataModule1.LoadOrdersStore;
   ListBox := TListBox.Create(Self);
   ListBox.Left := 999;
   ListBox.Parent := Self;
@@ -69,11 +69,8 @@ begin
   ListBox.AlignWithMargins := True;
   sl := TStringList.Create;
   try
-    Orders.ForEach(
-      procedure
-      begin
-        sl.Add(Orders.OrderID.AsString +' '+ Orders.CustomerID.AsString);
-      end);
+    for Order in TOrderStore.Store do
+      sl.Add(Order.OrderID.ToString +' '+ Order.CustomerID);
     ListBox.Items := sl;
   finally
     sl.Free;

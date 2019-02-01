@@ -14,7 +14,8 @@ uses
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.Client, FireDAC.Comp.DataSet,
   Data.DB,
-  Proxy.Orders;
+  Proxy.Orders,
+  Model.Orders;
 
 type
   TDataModule1 = class(TDataModule)
@@ -23,8 +24,9 @@ type
     FDPhysFBDriverLink1: TFDPhysFBDriverLink;
     OrdersTable: TFDQuery;
   private
-  public
     function CreateAllOrdersProxy: TOrdersProxy;
+  public
+    procedure LoadOrdersStore;
   end;
 
 var
@@ -54,6 +56,34 @@ begin
   Proxy.ConnectWithDataSet(Query);
   Proxy.Open;
   Result := Proxy;
+end;
+
+procedure TDataModule1.LoadOrdersStore;
+var
+  OrdersProxy: TOrdersProxy;
+  Order: TOrder;
+begin
+  OrdersProxy := CreateAllOrdersProxy;
+  try
+    TOrderStore.Store.Clear;
+    while not OrdersProxy.Eof do begin
+      Order := TOrder.Create;
+      Order.OrderID := OrdersProxy.OrderID.Value;
+      Order.CustomerID := OrdersProxy.CustomerID.Value;
+      Order.EmployeeID := OrdersProxy.EmployeeID.Value;
+      Order.OrderDate := OrdersProxy.OrderDate.Value;
+      Order.RequiredDate := OrdersProxy.RequiredDate.Value;
+      Order.ShippedDate := OrdersProxy.ShippedDate.Value;
+      Order.ShipVia := OrdersProxy.ShipVia.Value;
+      Order.Freight := OrdersProxy.Freight.Value;
+      TOrderStore.Store.Add(Order);
+      OrdersProxy.Next;
+    end;
+  finally
+    OrdersProxy.Free;
+  end;
+
+
 end;
 
 end.

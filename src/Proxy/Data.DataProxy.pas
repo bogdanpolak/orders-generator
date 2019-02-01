@@ -28,6 +28,7 @@ type
     procedure DisableControls;
     procedure Edit; inline;
     procedure EnableControls;
+    function Eof: boolean;
     procedure First; inline;
     procedure Insert; inline;
     procedure InsertRecord(const Values: array of const);
@@ -116,6 +117,11 @@ end;
 procedure TGenericDataSetProxy.EnableControls;
 begin
   FDataSet.EnableControls;
+end;
+
+function TGenericDataSetProxy.Eof: boolean;
+begin
+  Result := FDataSet.Eof;
 end;
 
 procedure TGenericDataSetProxy.First;
